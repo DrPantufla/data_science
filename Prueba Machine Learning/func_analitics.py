@@ -2,6 +2,9 @@ from pickletools import read_uint1
 import seaborn as sns
 import matplotlib.pyplot as plt
 from sympy import O
+import numpy as np
+from sklearn.metrics import roc_curve
+
 
 def suma(num1, num2):
     """
@@ -71,5 +74,27 @@ def heatmap_corr(data_set):
     """
     sns.set(rc={'figure.figsize':(28,14)})
     sns.heatmap(data_set.corr(), cmap='Blues', annot=True)
+    plt.show()
+    return
+
+def inv_logit(x):
+    """
+    Entra un valor log-odds en la funcion y se retorna un valor de probabilidad
+    """
+    return 1/(1+np.exp(-x))
+
+
+def curva_roc(y_test, yhat):
+    """
+    Esta funcion genera la curva Roc al ingresar los parametros de y_test: valores de prueba e 
+    yhay: valores predichos
+    """
+    false_positive, true_positive, threshold = roc_curve(y_test, yhat)
+    plt.title('Curva ROC')
+    plt.plot(false_positive, true_positive, ls="dotted",lw=1)
+    plt.plot([0 , 1 ], ls="--", lw= 1 )
+    plt.plot([0 , 0 ], [1 , 0 ] , c='limegreen', lw=3 ), plt.plot([1, 1],c= 'limegreen' , lw= 3 )
+    plt.ylabel('Verdaderos Positivos')
+    plt.xlabel('Falsos Positivos');
     plt.show()
     return
