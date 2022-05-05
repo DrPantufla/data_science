@@ -34,3 +34,11 @@ def binarizacion(df):
     for cols in df.select_dtypes(include=['object']).columns:
          df = pd.concat([df, pd.get_dummies(df[cols], prefix=cols, drop_first=True)], axis=1).drop(cols, axis=1)
     return df   
+
+
+def convertir_a_str(lista_tokens):
+    return ' '.join(lista_tokens)
+
+stop_words = set(nltk.corpus.stopwords.words('english'))
+def clean_stopwords(token):
+    return [item for item in token if item not in stop_words]
